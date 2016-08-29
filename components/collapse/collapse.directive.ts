@@ -136,7 +136,7 @@ export class CollapseDirective implements OnInit {
     this.isCollapse = true;
     this.isCollapsing = false;
     this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'visible');
-    this._renderer.setElementStyle(this._el.nativeElement, 'height', 'auto');
+    this._renderer.setElementStyle(this._el.nativeElement, 'height', '100%');
     this.expanded.emit(event);
     /*setTimeout(() => {
      // this.height = 'auto';
