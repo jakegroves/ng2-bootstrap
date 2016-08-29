@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {Component} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
 import {
   Ng2BootstrapConfig, Ng2BootstrapTheme, PROGRESSBAR_DIRECTIVES
 } from '../../../ng2-bootstrap';
@@ -53,8 +53,7 @@ export class ProgressbarDemoComponent {
 
     this.stacked = [];
     let total = 0;
-    let n = Math.floor((Math.random() * 4) + 1);
-    for (let i = 0; i < n; i++) {
+    for (let i = 0, n = Math.floor((Math.random() * 4) + 1); i < n; i++) {
       let index = Math.floor((Math.random() * 4));
       let value = Math.floor((Math.random() * 30) + 1);
       total += value;

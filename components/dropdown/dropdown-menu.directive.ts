@@ -1,19 +1,10 @@
-import {Directive, ElementRef, Host, OnInit, HostBinding} from '@angular/core';
+import {Directive, ElementRef, Host, OnInit} from 'angular2/core';
 import {DropdownDirective} from './dropdown.directive';
 
-@Directive({
-  selector: '[dropdownMenu]',
-  exportAs: 'bs-dropdown-menu'
-})
+@Directive({selector: '[dropdownMenu]'})
 export class DropdownMenuDirective implements OnInit {
   public dropdown:DropdownDirective;
   public el:ElementRef;
-
-  /* tslint:disable:no-unused-variable */
-  @HostBinding('class.dropdown-menu')
-  public addClass:boolean = true;
-  /* tslint:enable:no-unused-variable */
-
   public constructor(@Host() dropdown:DropdownDirective, el:ElementRef) {
     this.dropdown = dropdown;
     this.el = el;

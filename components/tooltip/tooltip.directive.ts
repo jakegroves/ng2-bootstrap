@@ -1,31 +1,26 @@
 import {
   Directive, Input, HostListener, DynamicComponentLoader,
-  ComponentRef, Provider, ReflectiveInjector, ViewContainerRef, TemplateRef
-} from '@angular/core';
+  ComponentRef, Provider, ReflectiveInjector, ViewContainerRef
+} from 'angular2/core';
 import {TooltipOptions} from './tooltip-options.class';
 import {TooltipContainerComponent} from './tooltip-container.component';
 
-/* tslint:disable */
-@Directive({selector: '[tooltip], [tooltipHtml]'})
-/* tslint:enable */
+@Directive({selector: '[tooltip]'})
 export class TooltipDirective {
   /* tslint:disable */
   @Input('tooltip') public content:string;
-  @Input('tooltipHtml') public htmlContent:string | TemplateRef<any>;
   @Input('tooltipPlacement') public placement:string = 'top';
   @Input('tooltipIsOpen') public isOpen:boolean;
-  @Input('tooltipEnable') public enable:boolean = true;
+  @Input('tooltipEnable') public enable:boolean;
   @Input('tooltipAnimation') public animation:boolean = true;
   @Input('tooltipAppendToBody') public appendToBody:boolean;
-  @Input('tooltipClass') public popupClass:string;
-  @Input('tooltipContext') public tooltipContext:any;
   /* tslint:enable */
 
   public viewContainerRef:ViewContainerRef;
   public loader:DynamicComponentLoader;
 
   private visible:boolean = false;
-  private tooltip:Promise<ComponentRef<any>>;
+  private tooltip:Promise<ComponentRef>;
 
   public constructor(viewContainerRef:ViewContainerRef, loader:DynamicComponentLoader) {
     this.viewContainerRef = viewContainerRef;
@@ -37,18 +32,15 @@ export class TooltipDirective {
   @HostListener('focusin', ['$event', '$target'])
   @HostListener('mouseenter', ['$event', '$target'])
   public show():void {
-    if (this.visible || !this.enable) {
+    if (this.visible) {
       return;
     }
     this.visible = true;
     let options = new TooltipOptions({
       content: this.content,
-      htmlContent: this.htmlContent,
       placement: this.placement,
       animation: this.animation,
-      hostEl: this.viewContainerRef.element,
-      popupClass: this.popupClass,
-      context: this.tooltipContext
+      hostEl: this.viewContainerRef.element
     });
 
     let binding = ReflectiveInjector.resolve([
@@ -57,7 +49,7 @@ export class TooltipDirective {
 
     this.tooltip = this.loader
       .loadNextToLocation(TooltipContainerComponent, this.viewContainerRef, binding)
-      .then((componentRef:ComponentRef<any>) => {
+      .then((componentRef:ComponentRef) => {
         return componentRef;
       });
   }
@@ -70,7 +62,7 @@ export class TooltipDirective {
       return;
     }
     this.visible = false;
-    this.tooltip.then((componentRef:ComponentRef<any>) => {
+    this.tooltip.then((componentRef:ComponentRef) => {
       componentRef.destroy();
       return componentRef;
     });

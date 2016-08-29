@@ -1,9 +1,5 @@
-import {Component} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-
+import {Component} from 'angular2/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {TYPEAHEAD_DIRECTIVES} from '../../../ng2-bootstrap';
 
 // webpack html imports
@@ -11,19 +7,11 @@ let template = require('./typeahead-demo.html');
 
 @Component({
   selector: 'typeahead-demo',
-  directives: [TYPEAHEAD_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES],
+  directives: [TYPEAHEAD_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
   template: template
 })
 export class TypeaheadDemoComponent {
-  public stateCtrl:FormControl = new FormControl();
-
-  public myForm:FormGroup= new FormGroup({
-    state: this.stateCtrl
-  });
-
-  public customSelected:string = '';
   public selected:string = '';
-  public dataSource:Observable<any>;
   public asyncSelected:string = '';
   public typeaheadLoading:boolean = false;
   public typeaheadNoResults:boolean = false;
@@ -67,21 +55,32 @@ export class TypeaheadDemoComponent {
     {id: 49, name: 'West Virginia'}, {id: 50, name: 'Wisconsin'},
     {id: 51, name: 'Wyoming'}];
 
-  public constructor() {
-    this.dataSource = Observable.create((observer:any) => {
-      // Runs on every search
-      observer.next(this.asyncSelected);
-    }).mergeMap((token:string) => this.getStatesAsObservable(token));
+  private _cache:any;
+  private _prevContext:any;
+
+  public getContext():any {
+    return this;
   }
 
-  public getStatesAsObservable(token:string):Observable<any> {
-    let query = new RegExp(token, 'ig');
+  public getAsyncData(context:any):Function {
+    if (this._prevContext === context) {
+      return this._cache;
+    }
 
-    return Observable.of(
-      this.statesComplex.filter((state:any) => {
-        return query.test(state.name);
-      })
-    );
+    this._prevContext = context;
+    let f:Function = function ():Promise<string[]> {
+      let p:Promise<string[]> = new Promise((resolve:Function) => {
+        setTimeout(() => {
+          let query = new RegExp(context.asyncSelected, 'ig');
+          return resolve(context.states.filter((state:any) => {
+            return query.test(state);
+          }));
+        }, 200);
+      });
+      return p;
+    };
+    this._cache = f;
+    return this._cache;
   }
 
   public changeTypeaheadLoading(e:boolean):void {
@@ -93,6 +92,6 @@ export class TypeaheadDemoComponent {
   }
 
   public typeaheadOnSelect(e:any):void {
-    console.log('Selected value: ',e.item);
+    console.log(`Selected value: ${e.item}`);
   }
 }

@@ -1,8 +1,7 @@
 import {
   Component, OnInit, Input, Output, ElementRef, EventEmitter, Self, Renderer
-} from '@angular/core';
-import {NgFor, NgIf} from '@angular/common';
-import {ControlValueAccessor, NgModel} from '@angular/forms';
+} from 'angular2/core';
+import {NgFor, NgIf, ControlValueAccessor, NgModel} from 'angular2/common';
 import {KeyAttribute} from '../common';
 
 // todo: extract base functionality classes
@@ -52,7 +51,7 @@ const PAGINATION_TEMPLATE = `
       <a class="page-link" href (click)="selectPage(page - 1, $event)" [innerHTML]="getText('previous')"></a>
       </li>
 
-    <li *ngFor="let pg of pages"
+    <li *ngFor="#pg of pages"
         [class.active]="pg.active"
         [class.disabled]="disabled&&!pg.active"
         class="pagination-page page-item">
@@ -93,8 +92,8 @@ export class PaginationComponent implements ControlValueAccessor, OnInit, Pagina
 
   @Input() public disabled:boolean;
 
-  @Output() public numPages:EventEmitter<number> = new EventEmitter<number>(false);
-  @Output() public pageChanged:EventEmitter<PageChangedEvent> = new EventEmitter<PageChangedEvent>(false);
+  @Output() public numPages:EventEmitter<number> = new EventEmitter(false);
+  @Output() public pageChanged:EventEmitter<PageChangedEvent> = new EventEmitter(false);
 
   @Input()
   public get itemsPerPage():number {

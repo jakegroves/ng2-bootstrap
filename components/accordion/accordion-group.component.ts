@@ -1,7 +1,7 @@
 import {
   Component, OnInit, OnDestroy, Input, HostBinding, Inject
-} from '@angular/core';
-import {NgClass} from '@angular/common';
+} from 'angular2/core';
+import {NgClass} from 'angular2/common';
 import {CollapseDirective} from '../collapse';
 import {AccordionComponent} from './accordion.component';
 
@@ -32,7 +32,6 @@ export class AccordionPanelComponent implements OnInit, OnDestroy {
   @Input() public panelClass:string;
   @Input() public isDisabled:boolean;
 
-  // Questionable, maybe .panel-open should be on child div.panel element?
   @HostBinding('class.panel-open')
   @Input()
   public get isOpen():boolean {

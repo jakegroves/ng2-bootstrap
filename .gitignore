@@ -15,9 +15,8 @@ npm-debug.log
 /dist
 /coverage
 /ts
-/doc
 
-# ignore inline compiling
+# ignore incline compiling
 /demo/**/*.js
 /demo/**/*.js.map
 /demo/**/*.d.ts

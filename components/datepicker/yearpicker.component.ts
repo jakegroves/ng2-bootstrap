@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES, NgClass} from '@angular/common';
-import {FORM_DIRECTIVES} from '@angular/forms';
+import {Component, OnInit} from 'angular2/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass} from 'angular2/common';
 import {Ng2BootstrapConfig} from '../ng2-bootstrap-config';
 import {DatePickerInnerComponent} from './datepicker-inner.component';
 
@@ -60,8 +59,8 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme] ||
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let rowz of rows">
-      <td *ngFor="let dtz of rowz" class="text-center" role="gridcell">
+    <tr *ngFor="#rowz of rows">
+      <td *ngFor="#dtz of rowz" class="text-center" role="gridcell">
       ${CURRENT_THEME_TEMPLATE.YEAR_BUTTON}
       </td>
     </tr>
@@ -87,9 +86,8 @@ export class YearPickerComponent implements OnInit {
     this.datePicker.setRefreshViewHandler(function ():void {
       let years:Array<any> = new Array(this.yearRange);
       let date:Date;
-      let start = self.getStartingYear(this.activeDate.getFullYear());
 
-      for (let i = 0; i < this.yearRange; i++) {
+      for (let i = 0, start = self.getStartingYear(this.activeDate.getFullYear()); i < this.yearRange; i++) {
         date = new Date(start + i, 0, 1);
         date = this.fixTimeZone(date);
         years[i] = this.createDateObject(date, this.formatYear);

@@ -1,5 +1,5 @@
-import {Component, ElementRef, ViewEncapsulation, TemplateRef} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {Component, ElementRef, ViewEncapsulation} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
 import {TypeaheadUtils} from './typeahead-utils';
 import {TypeaheadDirective} from './typeahead.directive';
 import {TypeaheadOptions} from './typeahead-options.class';
@@ -9,29 +9,15 @@ const TEMPLATE:any = {
   [Ng2BootstrapTheme.BS4]: `
   <div class="dropdown-menu"
        style="display: block"
-       [ngStyle]="{top: top, left: left, display: display}"
-       (mouseleave)="focusLost()">
-       <div *ngIf="!itemTemplate">
-          <a href="#"
-            *ngFor="let match of matches"
-            class="dropdown-item"
-            (click)="selectMatch(match, $event)"
-            (mouseenter)="selectActive(match)"
-            [class.active]="isActive(match)"
-            [innerHtml]="hightlight(match, query)"></a>
-      </div>
-      <div *ngIf="itemTemplate">
-        <a href="#"
-         *ngFor="let match of matches; let i = index"
+      [ngStyle]="{top: top, left: left, display: display}"
+      (mouseleave)="focusLost()">
+      <a href="#"
+         *ngFor="#match of matches"
          class="dropdown-item"
          (click)="selectMatch(match, $event)"
          (mouseenter)="selectActive(match)"
-         [class.active]="isActive(match)">
-          <template [ngTemplateOutlet]="itemTemplate"
-                    [ngOutletContext]="{item: match, index: i}">
-          </template>
-         </a>
-      </div>
+         [class.active]="isActive(match)"
+         [innerHtml]="hightlight(match, query)"></a>
   </div>
   `,
   [Ng2BootstrapTheme.BS3]: `
@@ -39,22 +25,10 @@ const TEMPLATE:any = {
       style="display: block"
       [ngStyle]="{top: top, left: left, display: display}"
       (mouseleave)="focusLost()">
-    <li *ngFor="let match of matches; let i = index"
+    <li *ngFor="#match of matches"
         [class.active]="isActive(match)"
         (mouseenter)="selectActive(match)">
-        <a href="#" 
-           *ngIf="!itemTemplate" 
-           (click)="selectMatch(match, $event)" 
-           tabindex="-1" 
-           [innerHtml]="hightlight(match, query)"></a>
-        <a href="#" 
-           *ngIf="itemTemplate" 
-           (click)="selectMatch(match, $event)" 
-           tabindex="-1">
-            <template [ngTemplateOutlet]="itemTemplate"
-                      [ngOutletContext]="{item: match, index: i}">
-            </template>
-        </a>
+        <a href="#" (click)="selectMatch(match, $event)" tabindex="-1" [innerHtml]="hightlight(match, query)"></a>
     </li>
   </ul>
   `
@@ -83,15 +57,11 @@ export class TypeaheadContainerComponent {
     Object.assign(this, options);
   }
 
-  public get matches():Array<any> {
+  public get matches():Array<string> {
     return this._matches;
   }
 
-  public get itemTemplate():TemplateRef<any> {
-    return this.parent ? this.parent.typeaheadItemTemplate : undefined;
-  }
-
-  public set matches(value:Array<any>) {
+  public set matches(value:Array<string>) {
     this._matches = value;
     if (this._matches.length > 0) {
       this._active = this._matches[0];
@@ -138,7 +108,9 @@ export class TypeaheadContainerComponent {
   }
 
   protected hightlight(item:any, query:string):string {
-    let itemStr:string = TypeaheadUtils.getValueFromObject(item, this._field);
+    let itemStr:string = (typeof item === 'object' && this._field
+      ? item[this._field]
+      : item).toString();
     let itemStrHelper:string = (this.parent.typeaheadLatinize
       ? TypeaheadUtils.latinize(itemStr)
       : itemStr).toLowerCase();
@@ -181,11 +153,9 @@ export class TypeaheadContainerComponent {
       e.preventDefault();
     }
     this.parent.changeModel(value);
-    setTimeout(() =>
-      this.parent.typeaheadOnSelect.emit({
-        item: value
-      }), 0
-    );
+    this.parent.typeaheadOnSelect.emit({
+      item: value
+    });
     return false;
   }
 }

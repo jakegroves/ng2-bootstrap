@@ -1,6 +1,7 @@
-import {Component, OnInit, EventEmitter, Input, OnChanges, Output} from '@angular/core';
-import {CORE_DIRECTIVES, NgClass} from '@angular/common';
-import {FORM_DIRECTIVES, NgModel} from '@angular/forms';
+import {Component, OnInit, EventEmitter, Input} from 'angular2/core';
+import {
+  CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgModel
+} from 'angular2/common';
 import {DateFormatter} from './date-formatter';
 
 const FORMAT_DAY = 'DD';
@@ -47,7 +48,7 @@ const SHORTCUT_PROPAGATION = false;
   `,
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, NgClass, NgModel]
 })
-export class DatePickerInnerComponent implements OnInit, OnChanges {
+export class DatePickerInnerComponent implements OnInit {
   @Input() public datepickerMode:string;
   @Input() public startingDay:number;
   @Input() public yearRange:number;
@@ -70,8 +71,6 @@ export class DatePickerInnerComponent implements OnInit, OnChanges {
   @Input() public dateDisabled:any;
   @Input() public initDate:Date;
 
-  @Output() public selectionDone: EventEmitter<Date> = new EventEmitter<Date>(undefined);
-
   public stepDay:any = {};
   public stepMonth:any = {};
   public stepYear:any = {};
@@ -89,7 +88,7 @@ export class DatePickerInnerComponent implements OnInit, OnChanges {
   private compareHandlerMonth:Function;
   private refreshViewHandlerYear:Function;
   private compareHandlerYear:Function;
-  private update:EventEmitter<Date> = new EventEmitter<Date>(false);
+  private update:EventEmitter<Date> = new EventEmitter(false);
 
   @Input()
   public get activeDate():Date {
@@ -98,6 +97,7 @@ export class DatePickerInnerComponent implements OnInit, OnChanges {
 
   public set activeDate(value:Date) {
     this._activeDate = value;
+    this.refreshView();
   }
 
   // todo: add formatter value to Date object
@@ -131,10 +131,7 @@ export class DatePickerInnerComponent implements OnInit, OnChanges {
     } else if (this.activeDate === undefined) {
       this.activeDate = new Date();
     }
-  }
 
-  // this.refreshView should be called here to reflect the changes on the fly
-  public ngOnChanges():void {
     this.refreshView();
   }
 
@@ -250,7 +247,6 @@ export class DatePickerInnerComponent implements OnInit, OnChanges {
       }
 
       this.activeDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      this.selectionDone.emit(this.activeDate);
     } else {
       this.activeDate = date;
       this.datepickerMode = this.modes[this.modes.indexOf(this.datepickerMode) - 1];

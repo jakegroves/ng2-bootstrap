@@ -1,6 +1,5 @@
-import {Component, Self, Input, Output, EventEmitter} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {FORM_DIRECTIVES, ControlValueAccessor, NgModel} from '@angular/forms';
+import {Component, Self, Input} from 'angular2/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, ControlValueAccessor, NgModel} from 'angular2/common';
 import {DatePickerInnerComponent} from './datepicker-inner.component';
 import {DayPickerComponent} from './daypicker.component';
 import {MonthPickerComponent} from './monthpicker.component';
@@ -30,9 +29,9 @@ import {YearPickerComponent} from './yearpicker.component';
                       [yearRange]="yearRange"
                       [customClass]="customClass"
                       [dateDisabled]="dateDisabled"
+                      [templateUrl]="templateUrl"
                       [onlyCurrentMonth]="onlyCurrentMonth"
-                      [shortcutPropagation]="shortcutPropagation"
-                      (selectionDone)="onSelectionDone($event)">
+                      [shortcutPropagation]="shortcutPropagation">
       <daypicker tabindex="0"></daypicker>
       <monthpicker tabindex="0"></monthpicker>
       <yearpicker tabindex="0"></yearpicker>
@@ -64,8 +63,6 @@ export class DatePickerComponent implements ControlValueAccessor {
 // todo: change type during implementation
   @Input() public dateDisabled:any;
 
-  @Output() public selectionDone: EventEmitter<Date> = new EventEmitter<Date>(undefined);
-
   public onChange:any = Function.prototype;
   public onTouched:any = Function.prototype;
 
@@ -91,10 +88,6 @@ export class DatePickerComponent implements ControlValueAccessor {
   public onUpdate(event:any):void {
     this.writeValue(event);
     this.cd.viewToModelUpdate(event);
-  }
-
-  public onSelectionDone(event: Date): void {
-    this.selectionDone.emit(event);
   }
 
   // todo: support null value

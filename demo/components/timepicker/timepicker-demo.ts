@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {FORM_DIRECTIVES} from '@angular/forms';
+import {Component} from 'angular2/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {TimepickerComponent} from '../../../ng2-bootstrap';
 
 // webpack html imports
@@ -15,7 +14,6 @@ export class TimepickerDemoComponent {
   public hstep:number = 1;
   public mstep:number = 15;
   public ismeridian:boolean = true;
-  public isEnabled:boolean = true;
 
   public mytime:Date = new Date();
   public options:any = {

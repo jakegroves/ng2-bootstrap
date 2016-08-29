@@ -1,9 +1,7 @@
 import {
   Directive, OnInit, Input, HostBinding, HostListener, Self
-} from '@angular/core';
-import {ControlValueAccessor, NgModel} from '@angular/forms';
-
-// TODO: config: activeClass - Class to apply to the checked buttons.
+} from 'angular2/core';
+import {ControlValueAccessor, NgModel} from 'angular2/common';
 
 @Directive({selector: '[btnCheckbox][ngModel]'})
 export class ButtonCheckboxDirective implements ControlValueAccessor, OnInit {

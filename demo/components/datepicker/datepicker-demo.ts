@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {FORM_DIRECTIVES} from '@angular/forms';
+import {Component} from 'angular2/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
 import * as moment from 'moment';
 import {DATEPICKER_DIRECTIVES} from '../../../ng2-bootstrap';

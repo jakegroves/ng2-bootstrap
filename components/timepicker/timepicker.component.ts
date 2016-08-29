@@ -1,6 +1,5 @@
-import {Component, OnInit, Input, Self} from '@angular/core';
-import {NgClass} from '@angular/common';
-import {NgModel, ControlValueAccessor} from '@angular/forms';
+import {Component, OnInit, Input, Self} from 'angular2/core';
+import {NgClass, NgModel, ControlValueAccessor} from 'angular2/common';
 
 export interface TimepickerConfig {
   hourStep:number;
@@ -57,7 +56,7 @@ function addMinutes(date:any, minutes:number):Date {
   template: `
     <table>
       <tbody>
-        <tr class="text-center" [ngClass]="{hidden: !showSpinners || readonlyInput}">
+        <tr class="text-center" [ngClass]="{hidden: !showSpinners}">
           <td><a (click)="incrementHours()" [ngClass]="{disabled: noIncrementHours()}" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
           <td>&nbsp;</td>
           <td><a (click)="incrementMinutes()" [ngClass]="{disabled: noIncrementMinutes()}" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
@@ -71,9 +70,9 @@ function addMinutes(date:any, minutes:number):Date {
           <td class="form-group" [ngClass]="{'has-error': invalidMinutes}">
             <input style="width:50px;" type="text" [(ngModel)]="minutes" (change)="updateMinutes()" class="form-control text-center" [readonly]="readonlyInput" (blur)="minutesOnBlur($event)" maxlength="2">
           </td>
-          <td [ngClass]="{hidden: !showMeridian}" *ngIf="showMeridian"><button type="button" [ngClass]="{disabled: noToggleMeridian() || readonlyInput}" class="btn btn-default text-center" (click)="toggleMeridian()">{{meridian}}</button></td>
+          <td [ngClass]="{hidden: !showMeridian}" *ngIf="showMeridian"><button type="button" [ngClass]="{disabled: noToggleMeridian()}" class="btn btn-default text-center" (click)="toggleMeridian()">{{meridian}}</button></td>
         </tr>
-        <tr class="text-center" [ngClass]="{hidden: !showSpinners || readonlyInput}">
+        <tr class="text-center" [ngClass]="{hidden: !showSpinners}">
           <td><a (click)="decrementHours()" [ngClass]="{disabled: noDecrementHours()}" class="btn btn-link"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
           <td>&nbsp;</td>
           <td><a (click)="decrementMinutes()" [ngClass]="{disabled: noDecrementMinutes()}" class="btn btn-link"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
@@ -200,22 +199,16 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
 
     let hours = this.getHoursFromTemplate();
     let minutes = this.getMinutesFromTemplate();
-    this.invalidHours = !isDefined(hours);
-    this.invalidMinutes = !isDefined(minutes);
 
-    if (this.invalidHours || this.invalidMinutes) {
-       // TODO: needed a validation functionality.
-        return;
+    if (!isDefined(hours) || !isDefined(minutes)) {
       // todo: validation?
       // invalidate(true);
     }
 
     this.selected.setHours(hours);
-    this.invalidHours = (this.selected < this.min || this.selected > this.max);
-    if (this.invalidHours) {
+    if (this.selected < this.min || this.selected > this.max) {
       // todo: validation?
       // invalidate(true);
-      return;
     } else {
       this.refresh(/*'h'*/);
     }
@@ -239,22 +232,16 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
 
     let minutes = this.getMinutesFromTemplate();
     let hours = this.getHoursFromTemplate();
-    this.invalidMinutes = !isDefined(minutes);
-    this.invalidHours = !isDefined(hours);
 
-    if (this.invalidMinutes || this.invalidHours) {
-      // TODO: needed a validation functionality.
-       return;
+    if (!isDefined(minutes) || !isDefined(hours)) {
       // todo: validation
       // invalidate(undefined, true);
     }
 
     this.selected.setMinutes(minutes);
-    this.invalidMinutes = (this.selected < this.min || this.selected > this.max);
-    if (this.invalidMinutes) {
+    if (this.selected < this.min || this.selected > this.max) {
       // todo: validation
       // invalidate(undefined, true);
-      return;
     } else {
       this.refresh(/*'m'*/);
     }
@@ -389,10 +376,6 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   private noToggleMeridian():boolean {
-    if (this.readonlyInput) {
-      return true;
-    }
-
     if (this.selected.getHours() < 13) {
       return addMinutes(this.selected, 12 * 60) > this.max;
     } else {

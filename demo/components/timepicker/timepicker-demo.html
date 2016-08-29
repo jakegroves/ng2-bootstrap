@@ -1,6 +1,4 @@
-<timepicker [(ngModel)]="mytime" (change)="changed()" [hourStep]="hstep" 
-            [minuteStep]="mstep" [showMeridian]="ismeridian" 
-            [readonlyInput]="!isEnabled"></timepicker>
+<timepicker [(ngModel)]="mytime" (change)="changed()" [hourStep]="hstep" [minuteStep]="mstep" [showMeridian]="ismeridian"></timepicker>
 
 <pre class="alert alert-info">Time is: {{mytime}}</pre>
 
@@ -8,13 +6,13 @@
   <div class="col-xs-6">
     Hours step is:
     <select class="form-control" [(ngModel)]="hstep">
-      <option *ngFor="let opt of options.hstep" [value]="opt">{{opt}}</option>
+      <option *ngFor="#opt of options.hstep" [value]="opt">{{opt}}</option>
     </select>
   </div>
   <div class="col-xs-6">
     Minutes step is:
     <select class="form-control" [(ngModel)]="mstep">
-      <option *ngFor="let opt of options.mstep" [value]="opt">{{opt}}</option>
+      <option *ngFor="#opt of options.mstep" [value]="opt">{{opt}}</option>
     </select>
   </div>
 </div>
@@ -22,6 +20,5 @@
 <hr>
 
 <button type="button" class="btn btn-info" (click)="toggleMode()">12H / 24H</button>
-<button type="button" class="btn btn-info" (click)="isEnabled=!isEnabled">Enable / Disable input</button>
 <button type="button" class="btn btn-primary" (click)="update()">Set to 14:00</button>
 <button type="button" class="btn btn-danger" (click)="clear()">Clear</button>

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 'use strict';
 
 /*eslint no-console: 0, no-sync: 0*/
@@ -18,13 +17,13 @@ const Builder = require('systemjs-builder');
 const pkg = require('../package.json');
 const name = pkg.name;
 const targetFolder = path.resolve('./bundles');
-
+console.log(targetFolder)
 async.waterfall([
   cleanBundlesFolder,
   getSystemJsBundleConfig,
-  buildSystemJs({minify: false, sourceMaps: true, mangle: false, noEmitHelpers: false, declaration: true}),
+  buildSystemJs({minify: false, sourceMaps: true, mangle: false}),
   getSystemJsBundleConfig,
-  buildSystemJs({minify: true, sourceMaps: true, mangle: false, noEmitHelpers: false, declaration: true}),
+  buildSystemJs({minify: true, sourceMaps: true, mangle: false}),
   gzipSystemJsBundle
 ], err => {
   if (err) {
@@ -41,12 +40,7 @@ function getSystemJsBundleConfig(cb) {
     },
     map: {
       typescript: path.resolve('node_modules/typescript/lib/typescript.js'),
-      '@angular/core': path.resolve('node_modules/@angular/core/index.js'),
-      '@angular/common': path.resolve('node_modules/@angular/common/index.js'),
-      '@angular/compiler': path.resolve('node_modules/@angular/compiler/index.js'),
-      '@angular/forms': path.resolve('node_modules/@angular/forms/index.js'),
-      '@angular/platform-browser': path.resolve('node_modules/@angular/platform-browser/index.js'),
-      '@angular/platform-browser-dynamic': path.resolve('node_modules/@angular/platform-browser-dynamic/'),
+      angular2: path.resolve('node_modules/angular2'),
       rxjs: path.resolve('node_modules/rxjs')
     },
     paths: {
@@ -54,12 +48,12 @@ function getSystemJsBundleConfig(cb) {
     }
   };
 
-  config.meta = ['@angular/common','@angular/compiler','@angular/core', '@angular/forms',
-    '@angular/platform-browser','@angular/platform-browser-dynamic', 'rxjs'].reduce((memo, currentValue) => {
+  config.meta = ['angular2', 'rxjs'].reduce((memo, currentValue) => {
     memo[path.resolve(`node_modules/${currentValue}/*`)] = {build: false};
     return memo;
   }, {});
   config.meta.moment = {build: false};
+  console.log(config.meta)
   return cb(null, config);
 }
 

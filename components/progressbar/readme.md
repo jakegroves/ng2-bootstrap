@@ -1,8 +1,6 @@
 ### Usage
 ```typescript
 import { PROGRESSBAR_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-// or
-import { PROGRESSBAR_DIRECTIVES } from 'ng2-bootstrap/components/progressbar';
 ```
 
 ### Annotations

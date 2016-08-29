@@ -3,14 +3,13 @@ Native Angular2 directives for Bootstrap, works with Bootstrap 3 and 4-alfa
 
 Follow me [![twitter](https://img.shields.io/twitter/follow/valorkin.svg?style=social&label=%20valorkin)](https://twitter.com/valorkin) to be notified about new releases.
 
-[![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
+[![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
 [![Build Status](https://travis-ci.org/valor-software/ng2-bootstrap.svg?branch=master)](https://travis-ci.org/valor-software/ng2-bootstrap)
-[![codecov](https://codecov.io/gh/valor-software/ng2-bootstrap/branch/development/graph/badge.svg)](https://codecov.io/gh/valor-software/ng2-bootstrap)
-[![slack](https://img.shields.io/badge/join-slack-brightgreen.svg)](https://www.hamsterpad.com/chat/ng2)
+[![Code Climate](https://codeclimate.com/github/valor-software/ng2-bootstrap/badges/gpa.svg)](https://codeclimate.com/github/valor-software/ng2-bootstrap)
 [![Join the chat at https://gitter.im/valor-software/ng2-bootstrap](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/valor-software/ng2-bootstrap?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Dependency Status](https://david-dm.org/valor-software/ng2-bootstrap.svg)](https://david-dm.org/valor-software/ng2-bootstrap)
-[![NPM](https://nodei.co/npm/ng2-bootstrap.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/anymatch/)
-[![NPM](https://nodei.co/npm-dl/ng2-bootstrap.png?height=3&months=9)](https://nodei.co/npm-dl/anymatch/)
+[![devDependency Status](https://david-dm.org/valor-software/ng2-bootstrap/dev-status.svg)](https://david-dm.org/valor-software/ng2-bootstrap#info=devDependencies)
+
 [![Throughput Graph](https://graphs.waffle.io/valor-software/ng2-bootstrap/throughput.svg)](https://waffle.io/valor-software/ng2-bootstrap/metrics)
 
 
@@ -51,12 +50,12 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/valorkin.svg?style=s
 ```
 ```js
   /* src/app/home/home.ts */
-  import {AlertComponent, DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+  import {Alert, DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
   ...
   @Component({
     directives: [
       ...
-      AlertComponent, DATEPICKER_DIRECTIVES
+      Alert, DATEPICKER_DIRECTIVES
       ]
   })
   export class Home {
@@ -114,11 +113,11 @@ And update your `app.component.ts` to have following content:
 
 ```ts
 import {Component} from 'angular2/core';
-import {AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
+import {Alert} from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
   selector: 'my-app',
-  directives: [AlertComponent],
+  directives: [Alert],
   template: `<alert type="info">ng2-bootstrap hello world!</alert>`
 })
 export class AppComponent {
@@ -137,7 +136,7 @@ And you are ready to go! :)
 - [x] Collapse
 - [+-] Datepicker (Datepicker popup not implemented)
 - [x] Dropdown
-- [x] Modal
+- [ ] Modal (in progress...)
 - [x] Pagination
 - [ ] Popover
 - [x] Progressbar

@@ -1,8 +1,6 @@
 ### Usage
 ```typescript
-import { DATEPICKER_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-// or
-import { DATEPICKER_DIRECTIVES } from 'ng2-bootstrap/components/datepicker';
+import {DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 ```
 
 ### Annotations

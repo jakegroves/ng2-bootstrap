@@ -1,10 +1,8 @@
-import {it, beforeEach, inject, async} from '@angular/core/testing';
-import { TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import {it, beforeEach, injectAsync, TestComponentBuilder, ComponentFixture} from 'angular2/testing';
 import {AlertComponent} from './alert.component';
 
 describe('Component: Alert', () => {
-    let fixture:ComponentFixture<any>;
-    let context:any;
+    let fixture:ComponentFixture, context:any;
     const overTemplate = `
                   <div class="alert" role="alert" [ngClass]="classes" *ngIf="!closed">
                     <button *ngIf="dismissible" type="button" class="close" (click)="onClose()" (touch)="onClose()">
@@ -14,15 +12,15 @@ describe('Component: Alert', () => {
                   </div>
             `;
 
-    beforeEach(async(inject([TestComponentBuilder], (tcb:TestComponentBuilder) => {
+    beforeEach(injectAsync([TestComponentBuilder], (tcb:TestComponentBuilder) => {
         return tcb
             .overrideTemplate(AlertComponent, overTemplate)
             .createAsync(AlertComponent)
-            .then((f:ComponentFixture<any>) => {
+            .then((f:ComponentFixture) => {
                 fixture = f;
                 context = fixture.debugElement.componentInstance;
             });
-    })));
+    }));
 
     it('should have a default type alert-warning', () => {
         context.ngOnInit();

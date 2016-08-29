@@ -8,7 +8,7 @@ import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/components/dropdown';
 ```html
 <!-- dropdown directive marks a dropdown root element -->
 <div dropdown>
-  <!-- click on dropdown-toggle toggles dropdown state, optional -->
+  <!-- click on dropdown-toggle toogles dropdown state, optional -->
   <div dropdownToggle></div>
   <!-- dropdown-menu holds content which will be shown -->
   <div dropdownMenu>
@@ -20,10 +20,7 @@ import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/components/dropdown';
 ### Annotations
 ```typescript
 // directive Dropdown
-@Directive({
-  selector: '[dropdown]',
-  exportAs: 'bs-dropdown'
-})
+@Directive({ selector: '[dropdown]' })
 export class Dropdown implements OnInit, OnDestroy {
   @HostBinding('class.open')
   @Input() public get isOpen():boolean {}
@@ -35,16 +32,10 @@ export class Dropdown implements OnInit, OnDestroy {
 }
 
 // directive DropdownToggle
-@Directive({ 
-  selector: '[dropdownToggle]',
-  exportAs: 'bs-dropdown-toggle'
-})
+@Directive({ selector: '[dropdownToggle]' })
 export class DropdownToggle implements OnInit {
   @HostBinding('class.disabled')
-  @Input() public isDisabled:boolean = false;
-
-  @HostBinding('class.dropdown-toggle')
-  @Input() public addToggleClass:boolean = false;
+  @Input() public disabled:boolean = false;
 
   @HostBinding('attr.aria-expanded')
   public get isOpen() {}
@@ -57,7 +48,7 @@ export const DROPDOWN_DIRECTIVES: Array<any> = [Dropdown, DropdownMenu, Dropdown
 
 ### Dropdown properties
 - `isOpen` (`?boolean=false`) - if `true` dropdown will be opened
-- `autoClose` (`?string='nonInput'`) - behaviour vary:
+- `autoClose` (`?string='always'`) - behaviour vary:
     * `nonInput` - (default) automatically closes the dropdown when any of its elements is clicked — as long as the clicked element is not an `input` or a `textarea`.
     * `always` - automatically closes the dropdown when any of its elements is clicked
     * `outsideClick` - closes the dropdown automatically only when the user clicks any element outside the dropdown
@@ -69,5 +60,4 @@ export const DROPDOWN_DIRECTIVES: Array<any> = [Dropdown, DropdownMenu, Dropdown
 - `onToggle` - fired when `dropdown` toggles, `$event:boolean` equals dropdown `isOpen` state
 
 ### Dropdown toggle properties
-- `isDisabled` (`?boolean=false`) - if `true` dropdown toggle will be disabled
-- `addToggleClass` (`?boolean=false`) - if `true` the `dropdown-toggle` class will be added to the element
+- `disabled` (`?boolean=false`) - if `true` dropdown toggle will be disabled
